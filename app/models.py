@@ -1,5 +1,3 @@
-import email
-from unicodedata import category
 from . import db
 from werkzeug.security import generate_password_hash,check_password_hash
 from flask_login import UserMixin
@@ -20,6 +18,8 @@ class User(UserMixin,db.Model):
   pass_secure = db.Column(db.String(255))
   Pitches = db.relationship('Pitch',backref = 'user',lazy = 'dynamic')
   upvotes = db.relationship('Upvote',backref='user',lazy='dynamic')
+  downvotes = db.relationship('Downvote',backref='user',lazy='dynamic')
+  comments = db.relationship('Comment',backref='user',lazy='dynamic')
 
   
   @property
@@ -58,6 +58,8 @@ class Pitch(db.Model):
   posted = db.Column(db.DateTime,default=datetime.utcnow)
   user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
   upvotes = db.relationship('Upvote',backref='pitch',lazy='dynamic')
+  downvotes = db.relationship('Downvote',backref='pitch',lazy='dynamic')
+  comments = db.relationship('Comment',backref='pitch',lazy='dynamic')
   
   def save_pitch(self):
     db.session.add(self)
@@ -91,3 +93,40 @@ class Upvote(db.Model):
   def __repr__(self):
       return f'Upvote {self.pitch}' 
 
+class Downvote(db.Model):
+    __tablename__ = 'downvotes'
+    id = id = db.Column(db.Integer,primary_key = True,unique=True)
+    downvote_count=  db.Column(db.Integer, default=0)
+    pitch_id = db.Column(db.Integer,db.ForeignKey('pitches.id',ondelete='SET NULL'),nullable = True) 
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id',ondelete='SET NULL'),nullable = True)
+
+    def add_downvote(self):
+        if self not in db.session:
+            db.session.add(self)
+            db.session.commit()         
+    @classmethod
+    def get_downvote(cls,pitch_id):
+        downvote = downvote.query.filter_by(pitch_id=pitch_id).first()
+        return downvote.downvote_count
+    def __repr__(self):
+        return f'Downvote {self.pitch}'
+      
+class Comment(db.Model):
+    __tablename__ = 'comments'
+    id = db.Column(db.Integer,primary_key = True)
+    comment = db.Column(db.String(255),unique=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id',ondelete='SET NULL'),nullable = True) 
+    pitch_id = db.Column(db.Integer,db.ForeignKey('pitches.id',ondelete='SET NULL'),nullable = True) 
+    
+    def save_comment(self):
+        if self not in db.session:
+            db.session.add(self)
+            db.session.commit()
+        
+    @classmethod
+    def get_comments(cls,pitch_id):
+        comments = Comment.query.filter_by(pitch_id=pitch_id).all()
+        return comments  
+  
+    def __repr__(self):
+        return f'Comment {self.pitch}'
