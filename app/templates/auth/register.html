@@ -1,0 +1,37 @@
+{% import 'bootstrap/wtf.html' as wtf%}
+<link rel="stylesheet" href="{{url_for('static',filename='css/style.css')}}">
+
+<div class="login">
+  <h1>Pitch your Best</h1>
+<div class="login-box">
+  <h2>Sign Up</h2>
+  {% for message in get_flashed_messages() %}
+  <div class="alert alert-danger">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  {{ message }}
+  </div>
+{% endfor %}
+  <form method="POST">
+    {{registration_form.hidden_tag()}}
+    <div class="user-box">
+      {{registration_form.email}}
+      <label>E-mail</label>
+    </div>
+    <div class="user-box">
+      {{registration_form.username}}
+      <label>Username</label>
+    </div>
+    <div class="user-box">
+      {{registration_form.password}}
+      <label>Password</label>
+    </div>
+    <div class="user-box">
+      {{registration_form.password_confirm}}
+      <label>Confirm Password</label>
+    </div>
+      {{registration_form.submit}}
+    <p>Already have an account?<a href="/">Sign In</a></p>
+  </form>
+</div>
+</div>
+<script type="text/javascript"src="{{ url_for('static', filename='js/main.js') }}"></script>
