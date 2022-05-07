@@ -1,3 +1,5 @@
 pitch_env/
 *.pyc
 start.sh
+__pycache__
+Notes.txt
