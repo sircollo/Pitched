@@ -19,6 +19,7 @@ class User(UserMixin,db.Model):
   role_id = db.Column(db.Integer,db.ForeignKey('roles.id'))
   pass_secure = db.Column(db.String(255))
   Pitches = db.relationship('Pitch',backref = 'user',lazy = 'dynamic')
+  upvotes = db.relationship('Upvote',backref='user',lazy='dynamic')
 
   
   @property
@@ -56,6 +57,7 @@ class Pitch(db.Model):
   pitch = db.Column(db.String(255))
   posted = db.Column(db.DateTime,default=datetime.utcnow)
   user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
+  upvotes = db.relationship('Upvote',backref='pitch',lazy='dynamic')
   
   def save_pitch(self):
     db.session.add(self)
@@ -70,5 +72,22 @@ class Pitch(db.Model):
     return f'Pitch {self.pitch}'
   
   
+class Upvote(db.Model):
+  __tablename__='upvotes'
+  id = db.Column(db.Integer,primary_key=True) 
+  upvote_count=  db.Column(db.Integer, default=0)
+  user_id = db.Column(db.Integer, db.ForeignKey('users.id',ondelete='SET NULL'),nullable = True)
+  pitch_id = db.Column(db.Integer,db.ForeignKey('pitches.id',ondelete='SET NULL'),nullable = True) 
   
-  
+  def add_upvote(self):
+      if self not in db.session:
+        db.session.add(self)
+        db.session.commit()  
+        
+  @classmethod
+  def get_upvote(cls,pitch_id):
+      upvote = Upvote.query.filter_by(pitch_id=pitch_id).first()
+      return upvote.upvote_count
+  def __repr__(self):
+      return f'Upvote {self.pitch}' 
+
