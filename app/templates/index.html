@@ -1,0 +1,20 @@
+{% import 'macros.html' as macro%}
+<link rel="stylesheet" href="{{url_for('static',filename='css/style.css')}}">
+<h1>trying</h1>
+
+<h3> Popular Movies</h3>
+        <ul>
+            {{ macro.displayPitches(business_pitch)}}
+        </ul>
+        <ul>
+            {{ macro.displayPitches(farming_pitch)}}
+        </ul>
+        <ul>
+            {{ macro.displayPitches(interview_pitch)}}
+        </ul>
+        <ul>
+            {{ macro.displayPitches(technology_pitch)}}
+        </ul>
+        <ul>
+            {{ macro.displayPitches(pitches_list)}}
+        </ul>
