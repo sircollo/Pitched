@@ -1,0 +1,3 @@
+Hi, {{user.username}}
+Welcome to Pitched
+Its your time to shine!
