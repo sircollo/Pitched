@@ -6,9 +6,10 @@ from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
 from flask_uploads import UploadSet,configure_uploads,IMAGES
 from flask_mail import Mail
+from flask_simplemde import SimpleMDE
 
 mail = Mail()
-
+simple = SimpleMDE()
 
 login_manager = LoginManager()
 login_manager.session_protection = 'strong'
@@ -31,7 +32,7 @@ def create_app(config_name):
   db.init_app(app)
   login_manager.init_app(app)
   mail.init_app(app)
-  
+  simple.init_app(app)
   #configure_uploadset
   configure_uploads(app,photos)
   
