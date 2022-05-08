@@ -1,38 +1,48 @@
 {% import 'macros.html' as macro%}
 <link rel="stylesheet" href="{{url_for('static',filename='css/style.css')}}">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<div class="container">
-   
-    <ul class="nav nav-tabs">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<div class="container page  text-light">
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/home">Pitched</a>
+      </div>
+      <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#all_pitches">All Pitches</a></li>
       <li><a data-toggle="tab" href="#tech">Technology</a></li>
       <li><a data-toggle="tab" href="#farm">Farming</a></li>
       <li><a data-toggle="tab" href="#interview">Interview</a></li>
       <li><a data-toggle="tab" href="#business">Business</a></li>
-    </ul>  
-    <div class="tab-content">
-        <div id="all_pitches" class="tab-pane fade in active">
-            <h3>All Pitches</h3>
-            <p>{{ macro.displayPitches(pitches_list)}}</p>
-          </div>
-      <div id="tech" class="tab-pane fade in active">
-        <h3>Technology</h3>
-        <p>{{ macro.displayPitches(technology_pitch)}}</p>
-      </div>
-      <div id="farm" class="tab-pane fade">
-        <h3>Farming</h3>
-        <p>{{ macro.displayPitches(farming_pitch) }}</p>
-      </div>
-      <div id="interview" class="tab-pane fade">
-        <h3>Interview</h3>
-        <p>{{ macro.displayPitches(interview_pitch) }}</p>
-      </div>
-      <div id="business" class="tab-pane fade">
-        <h3>Business</h3>
-        <p>{{ macro.displayPitches(business_pitch) }}</p>
-      </div>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="{{url_for('main.new_pitch')}}" class="nav-link-btn"
+          ><span class="glyphicon glyphicon-plus"></span> New Pitch</a></li>
+        <li><a href="{{url_for('main.profile',uname=current_user.username)}}"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
+        <li><a href="{{url_for('auth.logout')}}"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+      </ul>
     </div>
+  </nav>
+  <div class="tab-content">
+    <div id="all_pitches" class="tab-pane fade in active">
+        <h3>All Pitches</h3>
+        <p>{{ macro.displayPitches(pitches_list)}}</p>
+      </div>
+  <div id="tech" class="tab-pane fade in active">
+    <h3>Technology</h3>
+    <p>{{ macro.displayPitches(technology_pitch)}}</p>
   </div>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    
+  <div id="farm" class="tab-pane fade">
+    <h3>Farming</h3>
+    <p>{{ macro.displayPitches(farming_pitch) }}</p>
+  </div>
+  <div id="interview" class="tab-pane fade">
+    <h3>Interview</h3>
+    <p>{{ macro.displayPitches(interview_pitch) }}</p>
+  </div>
+  <div id="business" class="tab-pane fade">
+    <h3>Business</h3>
+    <p>{{ macro.displayPitches(business_pitch) }}</p>
+  </div>
+</div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
