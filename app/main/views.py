@@ -1,9 +1,10 @@
-from flask import render_template
+from flask import render_template,redirect,url_for,abort
 from . import main
 from flask_login import login_required
-from flask_login import login_required
+from flask_login import login_required,current_user
 from .. import db
-from ..models import User,Pitch
+from ..models import User,Pitch,Upvote,Downvote
+from .forms import PitchForm
 
 @main.route('/home')
 def index():
@@ -13,3 +14,30 @@ def index():
   interview_pitch = Pitch.query.filter_by(category = 'Interview').all()
   farming_pitch = Pitch.query.filter_by(category='Farming').all()
   return render_template('index.html',pitches_list=pitches_list,business_pitch=business_pitch,interview_pitch=interview_pitch,technology_pitch=technology_pitch, farming_pitch=farming_pitch)
+
+@main.route('/new_pitch',methods= ['GET','POST'])
+@login_required
+def new_pitch():
+    form = PitchForm()    
+    if form.validate_on_submit():
+        title = form.title.data
+        pitch = form.pitch.data
+        category = form.category.data
+        user_id = current_user
+        new_pitch_object = Pitch(pitch=pitch,user_id=current_user._get_current_object().id,category=category,title=title)
+        new_pitch_object.save_pitch()
+       
+        return redirect(url_for('main.index'))
+    
+    return render_template('new_pitch.html',form=form)
+  
+@main.route('/user/<uname>')
+def profile(uname):
+    user = User.query.filter_by(username = uname).first()
+    
+
+    if user is None:
+        abort(404)
+
+    return render_template("profile/profile.html", user = user)
+
