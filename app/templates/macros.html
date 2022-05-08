@@ -1,8 +1,74 @@
 {% macro displayPitches(pitches_list) %}
 
-  {%for pitch in pitches_list %}
-    <li> {{ pitch.title }}</li>
-        {{pitch.pitch}}
-  {% endfor %}
+  <div class="container-fluid">
+		<div class="row">
+				{% if pitches_list %}
+					{% for category in pitches_list %}
+					<div class="col-md-4" >
+						<div class="thumbnail" id="card">
+							<h4 class="card-header">Title: {{category.title}}</h4>
+							<div class="card-body">
+								  <p>Category: {{category.category}}</p>
+									<p>Pitch: {{category.pitch}}</p>                  
+									<p> Posted on: {{category.posted.strftime('%Y-%m-%d')}}, by {{category.user.username}}</p>
+									<p>Comments: {{category.comments.count()}}</p>
+									<div><a href="{{url_for('main.comment',pitch_id=category.id)}}">Add Comment</a></div>
+									<a href="{{url_for('main.upvote',pitch_id=category.id,user_id=category.user.id)}}"><i class="glyphicon glyphicon-arrow-up" style="font-size:18px;color: green"></i></a> {{category.upvotes.count()}}</span>
+									<a href="{{url_for('main.downvote',pitch_id=category.id,user_id=category.user.id)}}"><i class="glyphicon glyphicon-arrow-down" style="font-size:18px;color: green"></i></a> {{category.downvotes.count()}}</span>
+							</div>
+						</div>
+					</div>
+					
+					{% endfor %}
+				{% else %}
+				<div class="card w-90 mb-3">
+					<div class="card-body">
+				
+						<p class="card-title">No posts yet</p>
+					</div>
+				</div>
+				{% endif %}
+			</div>
+</div>
 
 {% endmacro %}
+
+{% macro displayUserPitches(user_pitches)%} {% for user_pitch in user_pitches%}
+
+<div class="card m-3 p-3">
+  <div class="title-wrapper">
+    <h5>Title: {{user_pitch.title}}</h5>
+    <h5 >Category: {{user_pitch.category}}</h5>
+  </div>
+  <div class="post-wrapper">
+    <p class="card-text m-0 p-0">Pitch: {{user_pitch.pitch}}</p>
+    <h6 >Posted on {{user_pitch.posted.date()}}</h6>
+  </div>
+  <div class="mt-2">
+    <div class="comments">Comments: {{user_pitch.comments.count()}}</div>
+		
+		<div class="comments">Likes: {{user_pitch.upvotes.count()}}</div>
+		<div class="comments">Dislikes: {{user_pitch.downvotes.count()}}</div>
+
+  </div>
+</div>
+
+{% endfor %} 
+{% endmacro %}
+
+{% macro displayComments(comments) %} 
+	<h4 class="mt-5">Comments:</h4>
+{% for comment in comments %}
+	
+	<div class="card m-2">
+		<div class="card-body">
+
+			<p class="card-text pt-10" style="color: white !important; font-size: 14px; font-style: italic;">{{comment.comment}}</p>
+			<div>
+				<span class="author" style="font-style:oblique;">{{comment.user.username}}</span>
+			</div>
+		</div>
+	</div>
+	
+	{% endfor %}
+	{% endmacro %}
