@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+  <!--Importing the simple mde css and js files  -->
+
+
+<link rel="stylesheet" href="{{url_for('static',filename='css/profile.css')}}">
+{% block content %}
+<div class="container mt-4 mb-4 p-3 d-flex justify-content-center"> 
+  <div class="card p-4"> 
+    <div class=" image d-flex flex-column justify-content-center align-items-center">
+       <div class="d-flex flex-row justify-content-center align-items-center gap-2"> 
+        {{wtf.quick_form(form)}}
+          {{simplemde.load}}
+
+        </div> 
+          
+  </div> 
+</div>
+</div>
+
+{% endblock %}
