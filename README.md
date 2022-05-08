@@ -53,5 +53,5 @@ This is a python Flask web application integrated with postgresql db that allows
 sircollo71@gmail.com
 
 ## License
-* [MIT](https://github.com/sircollo/Pitched/blob/master/LICENSE)
+* [MIT](https://github.com/sircollo/Pitched/blob/main/LICENSE)
 * Copyright (c) 2022 **Collins Sirwani**
