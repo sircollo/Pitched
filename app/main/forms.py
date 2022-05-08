@@ -10,3 +10,12 @@ class PitchForm(FlaskForm):
   category = SelectField('Category', choices=CATEGORIES,validators=[DataRequired()])
   pitch = TextAreaField('Your Pitch',validators=[DataRequired()])
   submit = SubmitField('Pitch')
+  
+class UpdateProfile(FlaskForm):
+  bio = TextAreaField('About yourself',validators=[DataRequired()])
+  submit = SubmitField('Update')
+  
+class CommentsForm(FlaskForm):
+    comment = TextAreaField('Add a comment',validators = [DataRequired()])
+    
+    submit = SubmitField('Submit')
